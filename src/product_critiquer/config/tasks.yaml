@@ -1,0 +1,74 @@
+# Web Application Testing Tasks
+
+persona_navigation_task:
+  description: >
+    Navigate the web application at {app_url} using the {persona_type} persona profile.
+    
+    Steps to follow:
+    1. Use the Persona Behavior Simulator tool to understand the {persona_type} characteristics
+    2. Navigate to {app_url} and explore key pages following persona-specific behavior patterns
+    3. Document all interactions, observations, and any usability issues encountered
+    4. Focus on areas most relevant to the {persona_type} user type
+    5. Provide detailed findings that can be used for user interview simulation
+    
+    Output should include navigation path, user observations, pain points, and positive experiences.
+  expected_output: >
+    A detailed report of the navigation experience including:
+    - Persona characteristics used for navigation
+    - Pages visited and interaction patterns
+    - Usability issues or friction points encountered
+    - Positive experiences and smooth interactions
+    - Technical observations (load times, responsiveness, etc.)
+    - Specific quotes or reactions the persona might have had
+  agent: persona_navigator
+  output_file: output/persona_navigation_report_{persona_type}.md
+
+interview_simulation_task:
+  description: >
+    Based on the navigation findings from the persona_navigator, conduct a realistic
+    user interview simulation that explores the user experience in depth.
+    
+    Steps to follow:
+    1. Review the navigation findings and persona characteristics
+    2. Create realistic interview questions based on observed interactions
+    3. Simulate authentic user responses that reflect the navigation experience
+    4. Probe deeper into pain points and positive experiences identified
+    5. Focus on actionable insights for product improvement
+    
+    The interview should feel authentic and reflect the actual user journey observed.
+  expected_output: >
+    A comprehensive interview transcript that includes:
+    - Interview questions focused on the observed user journey
+    - Realistic user responses based on navigation findings
+    - Follow-up questions that probe deeper into issues
+    - User sentiment and emotional reactions
+    - Specific improvement suggestions from the user perspective
+    - Key quotes that highlight major insights
+  agent: interviewer
+  output_file: output/interview_transcript_{persona_type}.md
+
+final_report_task:
+  description: >
+    Synthesize all testing data, analysis findings, and interview insights into a
+    comprehensive product critique report for {app_url}. Combine:
+    - Technical performance and functionality assessment
+    - Technical analysis and recommendations
+    - Persona-specific feedback and behavior insights
+    - Interview findings and user sentiment
+    - Competitive analysis and market positioning
+    - Prioritized action items for product improvement
+  expected_output: >
+    A comprehensive product critique report including:
+    - Executive summary with key findings and recommendations
+    - Detailed sections for technical and design analysis
+    - Persona-specific insights and behavior patterns
+    - Interview highlights and user feedback compilation
+    - Competitive analysis and market opportunities
+    - Prioritized roadmap of improvement recommendations
+    - Appendix with raw data, screenshots, and detailed metrics
+    Formatted as markdown without code blocks
+  agent: report_synthesizer
+  context:
+    - persona_navigation_task
+    - interview_simulation_task
+  output_file: output/final_product_critique_report_{persona_type}.md
