@@ -1,8 +1,5 @@
 #!/usr/bin/env python
-import sys
 import warnings
-
-from datetime import datetime
 
 from product_critiquer.crew import ProductCritiquer
 
@@ -18,14 +15,19 @@ def run():
     """
     Run the research crew.
     """
-    inputs = {"app_url": "https://news.ycombinator.com/", "persona_type": "tech_savvy"}
+    # inputs = {"app_url": "https://news.ycombinator.com/", "persona_type": "tech_savvy"}
     # inputs = {
     #     "app_url": "https://stackoverflow.com/questions",
     #     "persona_type": "tech_savvy",
     # }
+    inputs = {"app_url": "https://thisismukkunds.site/", "persona_type": "novice"}
 
     # Create and run the crew
-    result = ProductCritiquer().crew().kickoff(inputs=inputs)
+    productCritquer = ProductCritiquer()
+    try:
+        result = productCritquer.crew().kickoff(inputs=inputs)
+    finally:
+        productCritquer.cleanup()
 
     # Print the result
     print("\n\n=== FINAL DECISION ===\n\n")

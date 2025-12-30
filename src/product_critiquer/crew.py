@@ -1,11 +1,17 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
+from crewai_tools import StagehandTool
+from stagehand.schemas import AvailableModel
+import os
+from dotenv import load_dotenv
 
 from .tools.persona_behavior import PersonaBehaviorTool
 from .tools.report_generator import ReportGeneratorTool
 from .tools.metrics_analyzer import MetricsAnalyzerTool
-from .tools.playwright_tools import PlaywrightToolsWrapper
 from .output_types import PersonaNavigationOutput
+
+# Load environment variables from .env file
+load_dotenv()
 
 
 @CrewBase
@@ -16,15 +22,28 @@ class ProductCritiquer:
     tasks_config = "config/tasks.yaml"
 
     def __init__(self):
-        self.playwright_tools = PlaywrightToolsWrapper(headless=False)
+        # Initialize StagehandTool
+        browserbase_api_key = os.environ.get("BROWSERBASE_API_KEY")
+        browserbase_project_id = os.environ.get("BROWSERBASE_PROJECT_ID")
+        model_api_key = os.environ.get("OPENAI_API_KEY")
+        self.stagehand_tool = StagehandTool(
+            api_key=browserbase_api_key,
+            project_id=browserbase_project_id,
+            model_api_key=model_api_key,
+            model_name=AvailableModel.GPT_4O,
+        )
+
+    def cleanup(self):
+        """Clean up resources"""
+        self.stagehand_tool.close()
 
     @agent
     def persona_navigator(self) -> Agent:
         return Agent(
             config=self.agents_config["persona_navigator"],
             tools=[
-                *self.playwright_tools.get_all_tools(),
                 PersonaBehaviorTool(),
+                self.stagehand_tool,
             ],
             memory=True,
         )
@@ -40,7 +59,7 @@ class ProductCritiquer:
     def report_synthesizer(self) -> Agent:
         return Agent(
             config=self.agents_config["report_synthesizer"],
-            tools=[ReportGeneratorTool(), MetricsAnalyzerTool()],
+            tools=[ReportGeneratorTool()],
         )
 
     @task
@@ -60,7 +79,7 @@ class ProductCritiquer:
     def final_report_task(self) -> Task:
         return Task(
             config=self.tasks_config["final_report_task"],
-            output_file="product_critique_report.md",
+            output_file="output/product_critique_report.md",
         )
 
     @crew
@@ -74,5 +93,5 @@ class ProductCritiquer:
             verbose=True,
             memory=True,
             tracing=True,
-            output_log_file="crew_execution.log",
+            output_log_file="./logs/crew_execution.log",
         )

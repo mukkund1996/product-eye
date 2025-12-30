@@ -1,6 +1,15 @@
 # ProductCritiquer Crew
 
-Welcome to the ProductCritiquer Crew project, powered by [crewAI](https://crewai.com). This template is designed to help you set up a multi-agent AI system with ease, leveraging the powerful and flexible framework provided by crewAI. Our goal is to enable your agents to collaborate effectively on complex tasks, maximizing their collective intelligence and capabilities.
+Welcome to the ProductCritiquer Crew project, powered by [crewAI](https://crewai.com). This multi-agent AI system performs automated product critiquing through web navigation, persona-based user testing, and comprehensive report generation.
+
+## Overview
+
+The ProductCritiquer Crew consists of specialized AI agents that:
+- **Persona Navigator**: Uses StagehandTool to navigate web applications with different user personas, simulating real user behavior and identifying usability issues
+- **Interviewer**: Conducts simulated user interviews based on navigation findings
+- **Report Synthesizer**: Creates comprehensive product critique reports with actionable insights
+
+The system uses Stagehand for intelligent web automation, providing more reliable and human-like browser interactions compared to traditional browser automation tools.
 
 ## Installation
 
@@ -18,9 +27,29 @@ Next, navigate to your project directory and install the dependencies:
 ```bash
 crewai install
 ```
-### Customizing
+### Configuration
 
-**Add your `OPENAI_API_KEY` into the `.env` file**
+**Environment Variables**
+
+Create a `.env` file in the root directory with the following configuration:
+
+```bash
+# Browserbase API Configuration (required for StagehandTool)
+BROWSERBASE_API_KEY=your_browserbase_api_key_here
+BROWSERBASE_PROJECT_ID=your_browserbase_project_id_here
+
+# LLM API Key (required for StagehandTool - use either Anthropic or OpenAI)
+ANTHROPIC_API_KEY=your_anthropic_api_key_here
+# OR
+# OPENAI_API_KEY=your_openai_api_key_here
+```
+
+**Getting API Keys:**
+- **Browserbase**: Sign up at [browserbase.com](https://browserbase.com) to get your API key and project ID
+- **Anthropic**: Get your API key from [console.anthropic.com](https://console.anthropic.com)
+- **OpenAI**: Get your API key from [platform.openai.com](https://platform.openai.com)
+
+### Customizing
 
 - Modify `src/product_critiquer/config/agents.yaml` to define your agents
 - Modify `src/product_critiquer/config/tasks.yaml` to define your tasks
