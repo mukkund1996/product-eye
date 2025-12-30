@@ -14,11 +14,28 @@ class PlaywrightToolsWrapper:
     """Wrapper class for Playwright tools to make them compatible with CrewAI."""
 
     def __init__(self, headless: bool = False):
-        """Initialize the browser and create wrapped tools."""
+        """Initialize the browser with optimized settings for clicking."""
         self.headless = headless
+
+        # Create browser with better configurations
         self.sync_browser = create_sync_playwright_browser(headless=headless)
-        self._current_page = None
-        self._ensure_page()
+
+        # Create context with better settings
+        context = self.sync_browser.new_context(
+            # Disable security features that might block clicks
+            bypass_csp=True,
+            ignore_https_errors=True,
+            # Set realistic viewport
+            viewport={"width": 1280, "height": 720},
+            # Add user agent to avoid bot detection
+            user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        )
+
+        self._current_page = context.new_page()
+
+        # Set longer default timeouts
+        self._current_page.set_default_timeout(10000)  # 10 seconds
+        self._current_page.set_default_navigation_timeout(30000)  # 30 seconds
 
         # Initialize community tools with the browser
         self._navigate_tool = NavigateTool(sync_browser=self.sync_browser)
