@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 
 from .tools.persona_behavior import PersonaBehaviorTool
 from .tools.report_generator import ReportGeneratorTool
-from .tools.metrics_analyzer import MetricsAnalyzerTool
 from .output_types import PersonaNavigationOutput
 
 # Load environment variables from .env file
