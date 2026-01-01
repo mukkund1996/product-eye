@@ -15,11 +15,39 @@ def run():
     """
     Run the research crew.
     """
-    # inputs = {"app_url": "https://news.ycombinator.com/", "persona_type": "tech_savvy"}
     inputs = {
-        "app_url": "https://stackoverflow.com",
+        "app_url": "https://news.ycombinator.com/",
         "persona_type": "tech_savvy",
+        "testing_instructions": [
+            {
+                "task": "Explore the main interface and understand the primary purpose",
+                "priority": "high",
+                "max_attempts": 3,
+                "success_criteria": "Gain understanding of what the application does and how to navigate it",
+                "fallback_action": "Document any confusion about the application's purpose and continue",
+            },
+            {
+                "task": "Participate in the community discussion features",
+                "priority": "medium",
+                "max_attempts": 2,
+                "success_criteria": "Understand and attempt to engage with community interaction features",
+                "fallback_action": "Document participation barriers and observe community interactions passively",
+            },
+            {
+                "task": "Evaluate the user experience for finding valuable information",
+                "priority": "medium",
+                "max_attempts": 3,
+                "success_criteria": "Assess how effectively the platform helps users discover useful content",
+                "fallback_action": "Document information discovery challenges and continue with available features",
+            },
+        ],
     }
+
+    # inputs = {
+    #     "app_url": "https://stackoverflow.com",
+    #     "persona_type": "tech_savvy",
+    # }
+
     # inputs = {"app_url": "https://thisismukkunds.site/", "persona_type": "tech_savvy"}
 
     # Create and run the crew

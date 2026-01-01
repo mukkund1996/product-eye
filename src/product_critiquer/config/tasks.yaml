@@ -7,19 +7,52 @@ persona_navigation_task:
     Steps to follow:
     1. Use the Persona Behavior Simulator tool to understand the {persona_type} characteristics
     2. Navigate to {app_url} and explore key pages following persona-specific behavior patterns
-    3. Document all interactions, observations, and any usability issues encountered
-    4. Focus on areas most relevant to the {persona_type} user type
-    5. Provide detailed findings that can be used for user interview simulation
+    3. Execute the provided testing instructions systematically, attempting each with the specified maximum attempts
+    4. Document all interactions, observations, and any usability issues encountered
+    5. Focus on areas most relevant to the {persona_type} user type
+    6. Provide detailed findings that can be used for user interview simulation
     
     Output should include navigation path, user observations, pain points, and positive experiences.
+  inputs:
+    testing_instructions:
+      description: >
+        A list of high-level tasks for the persona navigator to complete on the website.
+        Each task should be approached according to the persona's natural behavior patterns.
+        Tasks should be attempted with the specified maximum attempts before moving on.
+      type: list
+      required: true
+      structure:
+        - task: "High-level goal or objective to accomplish"
+          priority: "high|medium|low"
+          max_attempts: 3
+          success_criteria: "General outcome that indicates task completion"
+          fallback_action: "What to do if the task cannot be completed"
+      example:
+        - task: "Explore the main interface and understand the primary purpose"
+          priority: "high"
+          max_attempts: 3
+          success_criteria: "Gain understanding of what the application does and how to navigate it"
+          fallback_action: "Document any confusion about the application's purpose and continue"
+        - task: "Engage with the core functionality as a typical user would"
+          priority: "high"
+          max_attempts: 2
+          success_criteria: "Successfully interact with the main features of the application"
+          fallback_action: "Document barriers to engagement and try alternative approaches"
+        - task: "Find and use search or discovery features"
+          priority: "medium"
+          max_attempts: 3
+          success_criteria: "Locate relevant content or information using available tools"
+          fallback_action: "Document search limitations and continue with manual exploration"
   expected_output: >
     A detailed report of the navigation experience including:
     - Persona characteristics used for navigation
+    - Testing instruction execution results (success/failure/attempts for each)
     - Pages visited and interaction patterns
     - Usability issues or friction points encountered
     - Positive experiences and smooth interactions
     - Technical observations (load times, responsiveness, etc.)
     - Specific quotes or reactions the persona might have had
+    - Summary of completed vs. attempted instructions with retry counts
   agent: persona_navigator
   output_file: output/persona_navigation_report_{persona_type}.md
 
