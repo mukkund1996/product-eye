@@ -93,7 +93,7 @@ persona_navigation_task:
   agent: persona_navigator
   context:
     - persona_research_task
-  output_file: output/persona_navigation_report_{persona_type}.md
+  output_file: output/persona_navigation_report_{persona_type}.json
 
 interview_simulation_task:
   description: >

@@ -5,7 +5,6 @@ from stagehand.schemas import AvailableModel
 import os
 from dotenv import load_dotenv
 
-from .tools.report_generator import ReportGeneratorTool
 from .output_types import PersonaNavigationOutput, PersonaResearchOutput
 
 # Load environment variables from .env file
@@ -30,7 +29,7 @@ class ProductCritiquer:
             model_api_key=model_api_key,
             model_name=AvailableModel.GPT_4O,
         )
-        
+
         # Initialize SerperDevTool
         self.serper_tool = SerperDevTool()
 
@@ -65,7 +64,6 @@ class ProductCritiquer:
     def report_synthesizer(self) -> Agent:
         return Agent(
             config=self.agents_config["report_synthesizer"],
-            tools=[ReportGeneratorTool()],
         )
 
     @task
@@ -92,7 +90,7 @@ class ProductCritiquer:
     def final_report_task(self) -> Task:
         return Task(
             config=self.tasks_config["final_report_task"],
-            output_file="output/product_critique_report.md",
+            output_file="output/product_critique_report_{persona_type}.md",
         )
 
     @crew

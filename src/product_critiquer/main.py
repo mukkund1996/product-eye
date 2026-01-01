@@ -40,6 +40,34 @@ def run():
                 "success_criteria": "Assess how effectively the platform helps users discover useful content",
                 "fallback_action": "Document information discovery challenges and continue with available features",
             },
+            {
+                "task": "Test content categorization and filtering capabilities",
+                "priority": "high",
+                "max_attempts": 3,
+                "success_criteria": "Understand how content is categorized (e.g., by topic, time, popularity) and test any available filtering options",
+                "fallback_action": "Document the categorization system observed and any limitations in content organization",
+            },
+            {
+                "task": "Evaluate search functionality and content discoverability",
+                "priority": "high",
+                "max_attempts": 3,
+                "success_criteria": "Test search features, explore how to find specific topics or articles, and assess search result quality",
+                "fallback_action": "Document search limitations and alternative methods for finding specific content",
+            },
+            {
+                "task": "Analyze content organization and ranking system",
+                "priority": "medium",
+                "max_attempts": 2,
+                "success_criteria": "Understand how stories are ranked, ordered, and organized on the main page and category pages",
+                "fallback_action": "Document observed patterns in content organization without full understanding of ranking mechanisms",
+            },
+            {
+                "task": "Evaluate content tagging and topic organization",
+                "priority": "low",
+                "max_attempts": 2,
+                "success_criteria": "Assess how well content is tagged or grouped by topics, and test navigation between related content",
+                "fallback_action": "Document the topic organization system or lack thereof, and continue with other evaluation tasks",
+            },
         ],
     }
 
