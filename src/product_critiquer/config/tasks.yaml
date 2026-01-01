@@ -1,18 +1,54 @@
 # Web Application Testing Tasks
 
-persona_navigation_task:
+persona_research_task:
   description: >
-    Navigate the web application at {app_url} using the {persona_type} persona profile.
+    Research and build a comprehensive persona profile for {persona_type} by gathering
+    information about their professional context, technology usage patterns, work
+    habits, pain points, and behavioral characteristics.
     
     Steps to follow:
-    1. Use the Persona Behavior Simulator tool to understand the {persona_type} characteristics
-    2. Navigate to {app_url} and explore key pages following persona-specific behavior patterns
-    3. Execute the provided testing instructions systematically, attempting each with the specified maximum attempts
-    4. Document all interactions, observations, and any usability issues encountered
-    5. Focus on areas most relevant to the {persona_type} user type
-    6. Provide detailed findings that can be used for user interview simulation
+    1. Use SerperDevTool to search for information about {persona_type} professionals
+    2. Research typical technology usage patterns and preferences
+    3. Identify common work contexts and environmental factors
+    4. Understand typical challenges and pain points in their work
+    5. Gather insights about decision-making processes and priorities
+    6. Compile behavioral patterns and interaction preferences
+    7. Create a detailed persona profile that can guide realistic user testing
     
-    Output should include navigation path, user observations, pain points, and positive experiences.
+    Focus on gathering actionable insights that will help simulate authentic
+    user behavior during web application testing.
+  expected_output: >
+    A comprehensive persona profile document including:
+    - Professional background and typical responsibilities
+    - Technology proficiency level and preferred tools
+    - Device preferences and usage contexts
+    - Common work environments and constraints
+    - Typical pain points and frustrations with technology
+    - Decision-making patterns and priorities
+    - Time pressures and efficiency requirements
+    - Communication and collaboration preferences
+    - Behavioral characteristics relevant to web application usage
+    - Specific quotes or insights from research sources
+  agent: persona_researcher
+  output_file: output/persona_profile_{persona_type}.md
+
+persona_navigation_task:
+  description: >
+    Navigate the web application at {app_url} using the researched {persona_type} persona profile
+    from the persona research task.
+    
+    Steps to follow:
+    1. Review the comprehensive persona profile created by the persona researcher
+    2. Apply the persona's behavioral patterns, preferences, and constraints
+    3. Navigate to {app_url} and explore key pages following the researched behavior patterns
+    4. Execute the provided testing instructions systematically, attempting each with the specified maximum attempts
+    5. Document all interactions, observations, and any usability issues encountered
+    6. Focus on areas most relevant to the researched {persona_type} characteristics
+    7. Simulate realistic reactions and decision-making based on the persona research
+    8. Provide detailed findings that can be used for user interview simulation
+    
+    Output should include navigation path, user observations, pain points, and positive experiences
+    all grounded in the researched persona characteristics.
   inputs:
     testing_instructions:
       description: >
@@ -45,39 +81,47 @@ persona_navigation_task:
           fallback_action: "Document search limitations and continue with manual exploration"
   expected_output: >
     A detailed report of the navigation experience including:
-    - Persona characteristics used for navigation
+    - Application of researched persona characteristics during navigation
     - Testing instruction execution results (success/failure/attempts for each)
-    - Pages visited and interaction patterns
-    - Usability issues or friction points encountered
+    - Pages visited and interaction patterns based on persona research
+    - Usability issues or friction points encountered from persona perspective
     - Positive experiences and smooth interactions
     - Technical observations (load times, responsiveness, etc.)
-    - Specific quotes or reactions the persona might have had
+    - Specific quotes or reactions the researched persona might have had
     - Summary of completed vs. attempted instructions with retry counts
+    - References to how persona research influenced navigation decisions
   agent: persona_navigator
+  context:
+    - persona_research_task
   output_file: output/persona_navigation_report_{persona_type}.md
 
 interview_simulation_task:
   description: >
-    Based on the navigation findings from the persona_navigator, conduct a realistic
+    Based on the persona research and navigation findings, conduct a realistic
     user interview simulation that explores the user experience in depth.
     
     Steps to follow:
-    1. Review the navigation findings and persona characteristics
-    2. Create realistic interview questions based on observed interactions
-    3. Simulate authentic user responses that reflect the navigation experience
-    4. Probe deeper into pain points and positive experiences identified
-    5. Focus on actionable insights for product improvement
+    1. Review the comprehensive persona profile from persona research
+    2. Review the navigation findings and observed interactions
+    3. Create realistic interview questions based on observed interactions and persona context
+    4. Simulate authentic user responses that reflect the testing experiences and task completion.
+    5. Probe deeper into pain points and positive experiences identified
+    6. Focus on actionable insights for product improvement that align with persona needs
     
-    The interview should feel authentic and reflect the actual user journey observed.
+    The interview should feel authentic and reflect the actual user journey observed
+    while staying true to the researched persona characteristics.
   expected_output: >
     A comprehensive interview transcript that includes:
-    - Interview questions focused on the observed user journey
-    - Realistic user responses based on navigation findings
-    - Follow-up questions that probe deeper into issues
-    - User sentiment and emotional reactions
-    - Specific improvement suggestions from the user perspective
-    - Key quotes that highlight major insights
+    - Interview questions focused on the observed user journey and persona context
+    - Realistic user responses based on navigation findings and persona research
+    - Follow-up questions that probe deeper into issues relevant to the persona type
+    - User sentiment and emotional reactions consistent with persona characteristics
+    - Specific improvement suggestions from the persona perspective
+    - Key quotes that highlight major insights relevant to the persona type
   agent: interviewer
+  context:
+    - persona_research_task
+    - persona_navigation_task
   output_file: output/interview_transcript_{persona_type}.md
 
 final_report_task:
@@ -102,6 +146,7 @@ final_report_task:
     Formatted as markdown without code blocks
   agent: report_synthesizer
   context:
+    - persona_research_task
     - persona_navigation_task
     - interview_simulation_task
   output_file: output/final_product_critique_report_{persona_type}.md

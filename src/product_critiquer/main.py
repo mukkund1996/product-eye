@@ -17,7 +17,7 @@ def run():
     """
     inputs = {
         "app_url": "https://news.ycombinator.com/",
-        "persona_type": "tech_savvy",
+        "persona_type": "Full-stack developer",
         "testing_instructions": [
             {
                 "task": "Explore the main interface and understand the primary purpose",
@@ -45,10 +45,10 @@ def run():
 
     # inputs = {
     #     "app_url": "https://stackoverflow.com",
-    #     "persona_type": "tech_savvy",
+    #     "persona_type": "Full-stack developer",
     # }
 
-    # inputs = {"app_url": "https://thisismukkunds.site/", "persona_type": "tech_savvy"}
+    # inputs = {"app_url": "https://thisismukkunds.site/", "persona_type": "Full-stack developer"}
 
     # Create and run the crew
     productCritquer = ProductCritiquer()

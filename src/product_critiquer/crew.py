@@ -1,13 +1,12 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
-from crewai_tools import StagehandTool
+from crewai_tools import StagehandTool, SerperDevTool
 from stagehand.schemas import AvailableModel
 import os
 from dotenv import load_dotenv
 
-from .tools.persona_behavior import PersonaBehaviorTool
 from .tools.report_generator import ReportGeneratorTool
-from .output_types import PersonaNavigationOutput
+from .output_types import PersonaNavigationOutput, PersonaResearchOutput
 
 # Load environment variables from .env file
 load_dotenv()
@@ -31,19 +30,27 @@ class ProductCritiquer:
             model_api_key=model_api_key,
             model_name=AvailableModel.GPT_4O,
         )
+        
+        # Initialize SerperDevTool
+        self.serper_tool = SerperDevTool()
 
     def cleanup(self):
         """Clean up resources"""
         self.stagehand_tool.close()
 
     @agent
+    def persona_researcher(self) -> Agent:
+        return Agent(
+            config=self.agents_config["persona_researcher"],
+            tools=[self.serper_tool],
+            memory=True,
+        )
+
+    @agent
     def persona_navigator(self) -> Agent:
         return Agent(
             config=self.agents_config["persona_navigator"],
-            tools=[
-                PersonaBehaviorTool(),
-                self.stagehand_tool,
-            ],
+            tools=[self.stagehand_tool],
             memory=True,
         )
 
@@ -59,6 +66,13 @@ class ProductCritiquer:
         return Agent(
             config=self.agents_config["report_synthesizer"],
             tools=[ReportGeneratorTool()],
+        )
+
+    @task
+    def persona_research_task(self) -> Task:
+        return Task(
+            config=self.tasks_config["persona_research_task"],
+            output_pydantic=PersonaResearchOutput,
         )
 
     @task

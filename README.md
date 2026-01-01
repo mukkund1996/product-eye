@@ -5,11 +5,12 @@ Welcome to the ProductCritiquer Crew project, powered by [crewAI](https://crewai
 ## Overview
 
 The ProductCritiquer Crew consists of specialized AI agents that:
-- **Persona Navigator**: Uses StagehandTool to navigate web applications with different user personas, simulating real user behavior and identifying usability issues
-- **Interviewer**: Conducts simulated user interviews based on navigation findings
+- **Persona Researcher**: Uses SerperDevTool to research and build comprehensive persona profiles for different professional types (engineers, lawyers, accountants, etc.) by gathering real-world behavioral data
+- **Persona Navigator**: Uses StagehandTool to navigate web applications with researched user personas, simulating realistic user behavior patterns and identifying usability issues
+- **Interviewer**: Conducts simulated user interviews based on persona research and navigation findings
 - **Report Synthesizer**: Creates comprehensive product critique reports with actionable insights
 
-The system uses Stagehand for intelligent web automation, providing more reliable and human-like browser interactions compared to traditional browser automation tools.
+The system uses dynamic persona research to create authentic user testing scenarios, replacing static persona configurations with real-world data gathered through web search. This ensures more accurate and contextually relevant user behavior simulation.
 
 ## Installation
 
@@ -38,6 +39,9 @@ Create a `.env` file in the root directory with the following configuration:
 BROWSERBASE_API_KEY=your_browserbase_api_key_here
 BROWSERBASE_PROJECT_ID=your_browserbase_project_id_here
 
+# SerperDev API Configuration (required for persona research)
+SERPER_API_KEY=your_serper_api_key_here
+
 # LLM API Key (required for StagehandTool - use either Anthropic or OpenAI)
 ANTHROPIC_API_KEY=your_anthropic_api_key_here
 # OR
@@ -46,6 +50,7 @@ ANTHROPIC_API_KEY=your_anthropic_api_key_here
 
 **Getting API Keys:**
 - **Browserbase**: Sign up at [browserbase.com](https://browserbase.com) to get your API key and project ID
+- **SerperDev**: Get your API key from [serper.dev](https://serper.dev) for web search functionality
 - **Anthropic**: Get your API key from [console.anthropic.com](https://console.anthropic.com)
 - **OpenAI**: Get your API key from [platform.openai.com](https://platform.openai.com)
 
