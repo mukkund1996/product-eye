@@ -27,20 +27,6 @@ def run():
                 "fallback_action": "Document any confusion about the application's purpose and continue",
             },
             {
-                "task": "Participate in the community discussion features",
-                "priority": "medium",
-                "max_attempts": 2,
-                "success_criteria": "Understand and attempt to engage with community interaction features",
-                "fallback_action": "Document participation barriers and observe community interactions passively",
-            },
-            {
-                "task": "Evaluate the user experience for finding valuable information",
-                "priority": "medium",
-                "max_attempts": 3,
-                "success_criteria": "Assess how effectively the platform helps users discover useful content",
-                "fallback_action": "Document information discovery challenges and continue with available features",
-            },
-            {
                 "task": "Test content categorization and filtering capabilities",
                 "priority": "high",
                 "max_attempts": 3,
@@ -78,16 +64,19 @@ def run():
 
     # inputs = {"app_url": "https://thisismukkunds.site/", "persona_type": "Full-stack developer"}
 
-    # Create and run the crew
+    # Create and run the crew with verification
     productCritquer = ProductCritiquer()
     try:
-        result = productCritquer.crew().kickoff(inputs=inputs)
+        result = productCritquer.kickoff_with_verification(inputs=inputs)
+        print("\n\n=== EXECUTION SUMMARY ===\n")
+        print(f"Navigation attempts: {result['navigation_retry_count']}")
+        print("\n=== FINAL RESULT ===\n")
+        if result.get('final_result'):
+            print(result['final_result'])
+        else:
+            print("Final result not available")
     finally:
         productCritquer.cleanup()
-
-    # Print the result
-    print("\n\n=== FINAL DECISION ===\n\n")
-    print(result.raw)
 
 
 if __name__ == "__main__":

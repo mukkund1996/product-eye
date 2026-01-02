@@ -41,14 +41,24 @@ persona_navigation_task:
     1. Review the comprehensive persona profile created by the persona researcher
     2. Apply the persona's behavioral patterns, preferences, and constraints
     3. Navigate to {app_url} and explore key pages following the researched behavior patterns
-    4. Execute the provided testing instructions systematically, attempting each with the specified maximum attempts
+    4. Execute EACH testing instruction systematically with detailed tracking:
+       - For each testing instruction, track attempts made vs max_attempts allowed
+       - Document whether success criteria were met for each task
+       - If a task fails and attempts remain, retry with persona-appropriate adjustments
+       - Execute fallback action if task cannot be completed within max_attempts
+       - Provide detailed completion notes for each testing instruction
     5. Document all interactions, observations, and any usability issues encountered
     6. Focus on areas most relevant to the researched {persona_type} characteristics
     7. Simulate realistic reactions and decision-making based on the persona research
-    8. Provide detailed findings that can be used for user interview simulation
+    8. Provide structured output with detailed testing instruction results
     
-    Output should include navigation path, user observations, pain points, and positive experiences
-    all grounded in the researched persona characteristics.
+    IMPORTANT: Your output must include a 'testing_instruction_results' field with detailed
+    tracking for each testing instruction including attempts made, success criteria assessment,
+    and completion status.
+    
+    Output should include navigation path, user observations, pain points, positive experiences,
+    and most importantly, detailed results for each testing instruction that can be verified
+    by the monitoring agent.
   inputs:
     testing_instructions:
       description: >
@@ -94,6 +104,59 @@ persona_navigation_task:
   context:
     - persona_research_task
   output_file: output/persona_navigation_report_{persona_type}.json
+
+navigation_verification_task:
+  description: >
+    Verify and evaluate the completion quality of the persona navigation task.
+    You will receive the navigation report as context. Review this report against 
+    the original testing instructions to ensure all tasks were attempted and 
+    completed satisfactorily and meet the success criteria.
+    
+    Steps to follow:
+    1. Carefully review the testing instructions provided in inputs
+    2. Analyze the navigation report from the previous task execution
+    3. For each testing instruction, verify:
+       - Was the task attempted?
+       - How many attempts were made vs max_attempts allowed?
+       - Was the success criteria met?
+       - If not successful, was the fallback action executed?
+    4. Evaluate the overall quality and thoroughness of task completion against the success_criteria of the {testing_instructions}
+    5. Identify any missed requirements or incomplete high-priority tasks
+    6. If tasks are incomplete/unsatisfactory AND within max_attempts, provide feedback for retry
+    7. Make final decision: PROCEED, RETRY (with guidance), or ACCEPTABLE_WITH_MAX_ATTEMPTS
+    
+    IMPORTANT RULES:
+    - Respect max_attempts limit: if a task reached max_attempts, don't request retry for that specific task
+    - Focus on high-priority tasks that failed within their attempt limits
+    - Provide specific, actionable retry guidance if requesting RETRY
+    - If most critical tasks are complete or max_attempts reached, prefer PROCEED or ACCEPTABLE_WITH_MAX_ATTEMPTS
+  inputs:
+    testing_instructions:
+      description: >
+        The exact testing instructions that were provided to the persona navigator.
+        Use these as the verification criteria to assess completion quality.
+      type: list
+      required: true
+      structure:
+        - task: "High-level goal or objective to accomplish"
+          priority: "high|medium|low"
+          max_attempts: 3
+          success_criteria: "General outcome that indicates task completion"
+          fallback_action: "What to do if the task cannot be completed"
+  expected_output: >
+    A verification report that includes:
+    - Overall completion assessment (satisfactory/needs_improvement/acceptable_with_max_attempts)
+    - Task-by-task verification against testing instructions
+    - Analysis of attempt counts vs max_attempts for each task
+    - Specific feedback for incomplete or unsatisfactory tasks
+    - Recommendations for re-navigation (if within max_attempts limits)
+    - Priority assessment of any missing requirements
+    - Final decision: PROCEED or RETRY (with specific guidance)
+  agent: navigation_monitor
+  context:
+    - persona_research_task
+    - persona_navigation_task
+  output_file: output/navigation_verification_{persona_type}.json
 
 interview_simulation_task:
   description: >
