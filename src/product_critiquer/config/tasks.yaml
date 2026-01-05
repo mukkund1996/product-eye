@@ -120,7 +120,7 @@ navigation_verification_task:
        - How many attempts were made vs max_attempts allowed?
        - Was the success criteria met?
        - If not successful, was the fallback action executed?
-    4. Evaluate the overall quality and thoroughness of task completion against the success_criteria of the {testing_instructions}
+    4. Evaluate the overall quality and thoroughness of task completion against the success_criteria of the testing instructions.
     5. Identify any missed requirements or incomplete high-priority tasks
     6. If tasks are incomplete/unsatisfactory AND within max_attempts, provide feedback for retry
     7. Make final decision: PROCEED, RETRY (with guidance), or ACCEPTABLE_WITH_MAX_ATTEMPTS

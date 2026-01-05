@@ -33,6 +33,7 @@ class ProductCritiquer:
             project_id=browserbase_project_id,
             model_api_key=model_api_key,
             model_name=AvailableModel.GEMINI_2_0_FLASH,
+            self_heal=True,
         )
 
         # Initialize SerperDevTool
@@ -47,7 +48,7 @@ class ProductCritiquer:
         return Agent(
             config=self.agents_config["persona_researcher"],
             tools=[self.serper_tool],
-            memory=True,
+            memory=False,
         )
 
     @agent
@@ -55,21 +56,21 @@ class ProductCritiquer:
         return Agent(
             config=self.agents_config["persona_navigator"],
             tools=[self.stagehand_tool],
-            memory=True,
+            memory=False,
         )
 
     @agent
     def interviewer(self) -> Agent:
         return Agent(
             config=self.agents_config["interviewer"],
-            memory=True,
+            memory=False,
         )
 
     @agent
     def navigation_monitor(self) -> Agent:
         return Agent(
             config=self.agents_config["navigation_monitor"],
-            memory=True,
+            memory=False,
         )
 
     @agent
@@ -121,7 +122,7 @@ class ProductCritiquer:
             tasks=self.tasks,
             process=Process.sequential,
             verbose=True,
-            memory=True,
+            memory=False,
             tracing=True,
             output_log_file="./logs/crew_execution.log",
         )
@@ -138,7 +139,7 @@ class ProductCritiquer:
             tasks=[self.persona_research_task()],
             process=Process.sequential,
             verbose=True,
-            memory=True,
+            memory=False,
         )
         persona_research_result = persona_research_crew.kickoff(inputs=inputs)
 
@@ -161,7 +162,7 @@ class ProductCritiquer:
                 tasks=[self.persona_navigation_task()],
                 process=Process.sequential,
                 verbose=True,
-                memory=True,
+                memory=False,
             )
             navigation_result = navigation_crew.kickoff(inputs=inputs)
 
@@ -172,7 +173,7 @@ class ProductCritiquer:
                 tasks=[self.navigation_verification_task()],
                 process=Process.sequential,
                 verbose=True,
-                memory=True,
+                memory=False,
             )
             verification_result = verification_crew.kickoff(inputs=inputs)
 
@@ -229,7 +230,7 @@ class ProductCritiquer:
             tasks=[self.interview_simulation_task(), self.final_report_task()],
             process=Process.sequential,
             verbose=True,
-            memory=True,
+            memory=False,
         )
         final_result = final_crew.kickoff(inputs=inputs)
 
