@@ -1,0 +1,28 @@
+app_url: "https://stackoverflow.com"
+persona_type: "Full-stack developer"
+testing_instructions:
+  - task: "Test the question search and filtering system"
+    priority: "high"
+    max_attempts: 3
+    success_criteria: "Successfully search for questions using keywords and apply various filters (tags, date, votes)"
+    fallback_action: "Document search limitations and continue with basic navigation"
+  - task: "Evaluate the question asking process"
+    priority: "high"
+    max_attempts: 3
+    success_criteria: "Understand how to ask a question, what makes a good question, and the submission workflow"
+    fallback_action: "Document the question submission process and any barriers encountered"
+  - task: "Test the answer and voting system"
+    priority: "high"
+    max_attempts: 2
+    success_criteria: "Understand how answers are ranked, voted on, and how the reputation system works"
+    fallback_action: "Document the voting and ranking system observed"
+  - task: "Analyze user profile and reputation features"
+    priority: "medium"
+    max_attempts: 2
+    success_criteria: "Explore user profiles, understand how reputation is earned and displayed"
+    fallback_action: "Document visible user profile features and reputation indicators"
+  - task: "Test tag system and topic organization"
+    priority: "medium"
+    max_attempts: 2
+    success_criteria: "Navigate through tags, understand how content is categorized and organized by topics"
+    fallback_action: "Document the tag system structure and any navigation issues"

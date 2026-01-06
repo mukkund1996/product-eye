@@ -1,0 +1,33 @@
+app_url: "https://news.ycombinator.com/"
+persona_type: "Full-stack developer"
+testing_instructions:
+  - task: "Explore the main interface and understand the primary purpose"
+    priority: "high"
+    max_attempts: 3
+    success_criteria: "Gain understanding of what Hacker News does, how stories are organized, and basic navigation patterns"
+    fallback_action: "Document any confusion about the application's purpose and continue with available features"
+  - task: "Test content categorization and filtering capabilities"
+    priority: "high"
+    max_attempts: 3
+    success_criteria: "Understand how content is categorized (new, top, best, ask, show, jobs) and test navigation between sections"
+    fallback_action: "Document the categorization system observed and any limitations in content organization"
+  - task: "Evaluate search functionality and content discoverability"
+    priority: "high"
+    max_attempts: 3
+    success_criteria: "Test search features, explore how to find specific topics or articles, and assess search result quality"
+    fallback_action: "Document search limitations and alternative methods for finding specific content"
+  - task: "Analyze content ranking and scoring system"
+    priority: "medium"
+    max_attempts: 2
+    success_criteria: "Understand how stories are ranked by points, time, and comments, and how the ranking affects visibility"
+    fallback_action: "Document observed patterns in content organization without full understanding of ranking mechanisms"
+  - task: "Test user interaction features"
+    priority: "medium"
+    max_attempts: 2
+    success_criteria: "Explore commenting system, voting mechanisms, and user profile features"
+    fallback_action: "Document available user interaction features and any accessibility issues"
+  - task: "Evaluate content submission process"
+    priority: "low"
+    max_attempts: 2
+    success_criteria: "Understand how users can submit stories, links, or ask questions to the platform"
+    fallback_action: "Document the submission process or lack thereof, and continue with other evaluation tasks"

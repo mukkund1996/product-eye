@@ -1,0 +1,18 @@
+app_url: "https://thisismukkunds.site/"
+persona_type: "recruiter or hiring manager looking to evaluate a candidate's portfolio"
+testing_instructions:
+  - task: "Navigate the portfolio structure and main sections"
+    priority: "high"
+    max_attempts: 3
+    success_criteria: "Understand the overall portfolio structure, identify main sections (about, projects, contact, etc.)"
+    fallback_action: "Document what sections are visible and navigable, note any navigation issues"
+  - task: "Review the person's background, skills, and projects"
+    priority: "high"
+    max_attempts: 2
+    success_criteria: "Explore showcased projects, understand the person's skills and experience through their work"
+    fallback_action: "Document available project information and presentation quality"
+  - task: "Test contact and interaction features"
+    priority: "medium"
+    max_attempts: 2
+    success_criteria: "Test any contact forms, social media links, or interactive elements on the site"
+    fallback_action: "Document available contact methods and their accessibility"

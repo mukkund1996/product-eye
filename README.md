@@ -56,14 +56,61 @@ ANTHROPIC_API_KEY=your_anthropic_api_key_here
 
 ### Customizing
 
+**YAML Configuration System**
+
+The ProductCritiquer uses a **YAML-only configuration system**. You must provide a valid YAML configuration file to run the application - no default configuration is provided.
+
+**Required Configuration Structure:**
+```yaml
+app_url: "https://example.com"
+persona_type: "Full-stack developer"
+testing_instructions:  # optional
+  - task: "Description of what to test"
+    priority: "high|medium|low"
+    max_attempts: 3
+    success_criteria: "What constitutes success"
+    fallback_action: "What to do if task fails"
+```
+
+**Example configurations are provided in** `src/product_critiquer/config/examples/`:
+- `hackernews_config.yaml` - HackerNews testing configuration
+- `stackoverflow_config.yaml` - StackOverflow testing configuration
+- `portfolio_config.yaml` - Portfolio website testing configuration
+
+**Agent and Task Configuration:**
 - Modify `src/product_critiquer/config/agents.yaml` to define your agents
 - Modify `src/product_critiquer/config/tasks.yaml` to define your tasks
 - Modify `src/product_critiquer/crew.py` to add your own logic, tools and specific args
-- Modify `src/product_critiquer/main.py` to add custom inputs for your agents and tasks
+
+For detailed configuration documentation, see `src/product_critiquer/config/README.md`.
 
 ## Running the Project
 
-To kickstart your crew of AI agents and begin task execution, run this from the root folder of your project:
+**YAML Configuration Required**
+
+The application now requires a YAML configuration file. You must specify the configuration file using the `--config` parameter:
+
+```bash
+# Run with provided example configurations
+python src/product_critiquer/main.py --config src/product_critiquer/config/examples/hackernews_config.yaml
+python src/product_critiquer/main.py --config src/product_critiquer/config/examples/stackoverflow_config.yaml
+python src/product_critiquer/main.py --config src/product_critiquer/config/examples/portfolio_config.yaml
+
+# Run with your custom YAML configuration
+python src/product_critiquer/main.py --config my_custom_config.yaml
+
+# Short form
+python src/product_critiquer/main.py -c my_config.yaml
+```
+
+**Error Handling:**
+- The application will exit with an error if no configuration file is provided
+- Invalid YAML syntax or missing required fields will cause the application to exit
+- No fallback to default configuration is provided
+
+**Using CrewAI CLI (Legacy Method)**
+
+To use the original method, run this from the root folder:
 
 ```bash
 $ crewai run
