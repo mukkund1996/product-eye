@@ -41,7 +41,14 @@ class ProductCritiquer:
 
     def cleanup(self):
         """Clean up resources"""
-        self.stagehand_tool.close()
+        try:
+            if hasattr(self, 'stagehand_tool') and self.stagehand_tool is not None:
+                self.stagehand_tool.close()
+                self.stagehand_tool = None
+        except Exception as e:
+            # Silently handle cleanup errors - browser context might already be closed
+            # This is common when the browser/context is closed by other means
+            pass
 
     @agent
     def persona_researcher(self) -> Agent:
